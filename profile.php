@@ -32,9 +32,6 @@ session_start();
         <a class="nav-link" href="book.php">Become Stud</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="topics.php">Topics</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="viewbookings.php">Bookings</a>
       </li>
       <li class="nav-item">
@@ -56,8 +53,8 @@ session_start();
     settings
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item" type="button">Your profile</button>
-    <button class="dropdown-item" type="button">Settings</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'" >profile</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='setting.php'" >Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
     <hr>
@@ -176,7 +173,7 @@ else{
   <hr align="left" width="50%" style="background-color: #000;margin-left: 4px">
   <p style="margin-left: 4px">We can help you to explore your thoughts.</p>
 	<button type="button" class="btn btn-dark btn-sm" style="margin-left:  4px"onclick="window.location.href='book.php'">Book your Appointment</button>
-  <button type="button" class="btn btn-dark btn-sm" style="margin-left:  4px" onclick="window.location.href='requestforappo.php'">Request for Appointment</button>
+  <button type="button" class="btn btn-dark btn-sm" style="margin-left:  4px" onclick="window.location.href='requestforappo.php'">Attend Appointment</button>
 	<br>
 </div>
 

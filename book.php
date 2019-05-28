@@ -52,7 +52,7 @@ session_start();
     settings
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item" type="button">Your profile</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'">profile</button>
     <button class="dropdown-item" type="button">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>

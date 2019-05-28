@@ -47,7 +47,7 @@ session_start();
     settings
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item" type="button">Your profile</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'">Your profile</button>
     <button class="dropdown-item" type="button">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
@@ -65,27 +65,31 @@ session_start();
   $uid=$_SESSION["user_id"];
   $query="SELECT * FROM booking_record where user_id='$uid' ORDER BY dob ASC;";
   $rt=mysqli_query($db,$query);
+   if ($rt->num_rows <= 0)
+  {
+    ?><img align="center" style="width: 400px;display: block;
+    margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 35%;" src="nobooking.svg"><p align="center"><b>
+    <?php
+   echo "No Bookings";?></p></b>
+   <div style="text-align: center;">
+    <button type="button" class="btn btn-dark" style=" position: relative;align-self: center;" align="center" onclick="location.href ='book.php'">Book Now</button>
+</div>
+   
+    <?php
+ }
+ else
+ {
 while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 { 
-  if ($rt->num_rows <= 0)
-        { 
-          echo "No Bookings";
-            break;
-        }
   
   $tid=$row['topic_id'];
   $q="SELECT topic_name from topics where topic_id='$tid';";
   $result=mysqli_query($db,$q);
-  
-
   $r=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-      if ($rt->num_rows <= 0)
-        { 
-          echo "No Bookings";
-        }
-      else
-      {
           ?>
           <div class=<?php 
           $date_now = date("Y-m-d");
@@ -104,13 +108,17 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
             </b></div>
             <div align="center" class="card-body">
             <h5 class="card-title"><?php  echo $r["topic_name"]; ?></h5>
-            <p align="center"  class="card-text"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));}?></p>
+            <p align="center"  class="card-text"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
+            ?></p>
               <?php 
           $date_now = date("Y-m-d");
-            if ($date_now > $row["dob"]) {?>
+            if ($date_now > $row["dob"])
+              {?>
                 
     <button type="button" class="btn btn-outline-light delbtn" name="delbtn" id="<?php echo $row["booking_id"];?>">Delete</button><?php
-                }else{?>
+                }
+                else
+                {?>
                 <button name="delbtn" class="btn btn-outline-light" id="<?php echo $row["booking_id"];?>" value="Delete">Edit</button>
                   <button name="delbtn" class="btn btn-outline-light delbtn" id="<?php echo $row["booking_id"];?>" value="Delete">Delete</button>
                 <?php
@@ -121,7 +129,7 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 
 </div>
 <?php
-}
+}}
 ?>
 
 <script type="text/javascript">
