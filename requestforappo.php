@@ -8,9 +8,9 @@ session_start();
 <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bookings</title>
+<title>Attend Appointment</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -34,7 +34,7 @@ session_start();
       <li class="nav-item">
         <a class="nav-link" href="#">Topics</a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="#">Bookings</a>
       </li>
       <li class="nav-item">
@@ -69,7 +69,9 @@ session_start();
         
           <?php 
   $uid=$_SESSION["user_id"];
-  $query="SELECT * FROM booking_record where user_id='$uid' ORDER BY dob ASC;";
+  $query="SELECT DISTINCT booking_record.booking_id,booking_record.user_id,booking_record.topic_id,booking_record.from_time,booking_record.to_time,booking_record.dob
+FROM booking_record
+INNER JOIN user_interest_topics ON booking_record.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid' AND NOT booking_record.user_id='$uid' AND dob >= CURDATE() ORDER BY dob ASC;";
   $rt=mysqli_query($db,$query);
    if ($rt->num_rows <= 0)
   {
@@ -77,13 +79,9 @@ session_start();
     margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
-  width: 35%;" src="nobooking.svg"><p align="center"><b>
+  width: 35%;" src="nobooking.svg"><p align="center" style="margin-top: 10px"><b>
     <?php
-   echo "No Bookings";?></p></b>
-   <div style="text-align: center;">
-    <button type="button" class="btn btn-dark" style=" position: relative;align-self: center;" align="center" onclick="location.href ='book.php'">Book Now</button>
-</div>
-   
+   echo "No Appointment's available";?></p></b>
     <?php
  }
  else
@@ -91,6 +89,12 @@ session_start();
 while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 { 
   ?><div style="padding-left: 15px;padding-right: 15px;padding-top: 10px; align-self: center;display: inline-block;" align="center"><?php
+
+  $userwhobooked=$row['user_id'];
+  $userwhobookedquery="SELECT * from users where user_id='$userwhobooked';";
+  $resultquery=mysqli_query($db,$userwhobookedquery);
+  $resultuserbooked=mysqli_fetch_array($resultquery,MYSQLI_ASSOC);
+
   $tid=$row['topic_id'];
   $q="SELECT topic_name from topics where topic_id='$tid';";
   $result=mysqli_query($db,$q);
@@ -98,42 +102,67 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 
           ?>
 
-
-
-  <div class="card" style="background-color: #fff;max-width: 18rem;width:16rem;box-shadow: 0 8px 6px -5px #BDBDBD;">
+  <div class="card" style="background-color: #fff;max-width: 18rem;width:16rem;box-shadow: 0px 8px 6px -3px #BDBDBD;">
     <div class="card-body" style="display: inline-block;">
-      <h5 class="card-title" align="center" style="align-self: center;" ><?php  echo $r["topic_name"]; ?></h5>
-      <class="card-text" align="center"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
-            ?><br></class="card-text">
-      
-
-
-      <?php
+      <h5 class="card-title" align="center"  ><?php  echo $r["topic_name"]; ?></h5><hr>
+      <p class="card-text" align="center" style="align-self:center;margin-top: -12px"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
+            ?><br>
+      <class="card-text"><small align="center" class="text-muted"> <?php
             $date_now = date("Y-m-d");
             if ($date_now == $row["dob"]) {
-                ?><b><class="card-text"><span class="badge badge-pill badge-danger" align="center" ><?php echo 'Today'; ?></span></b><?php
+                ?><b><?php echo 'Today'; ?></b><?php
                 }else{
-                  ?>
-                  <class="card-text"><span class="badge badge-pill badge-warning" align="center" ><?php
                 echo $row["dob"];
-                      }?></class="card-text"></span>
-    </div><hr>
-    <div style="display: inline-block; padding: 10px" align="center">
+                      }?></small></class="card-text"><hr style="margin-top:-12px">
 
-      <?php 
-          $date_now = date("Y-m-d");
-            if ($date_now > $row["dob"])
-              {?>
-                
-    <button type="button" class="btn btn-success delbtn" name="delbtn" id="<?php echo $row["booking_id"];?>">Delete</button><?php
-                }
-                else
-                {?>
+    <class="card-text" align="center" style="margin-top: -12px;display: inline-block;">From:<b> <?php echo $resultuserbooked['name']; ?></class="card-text"></b><br>
+    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Stud Rating: <?php echo $resultuserbooked['stud_ratting']; ?></class="card-text"><br>
+    <class="card-text" align="center" style="margin-top: -12px">Username: <b><?php echo $resultuserbooked['username']; ?></class="card-text"></b>
+  </div>
+    <div style="padding: 10px;display: inline-block;" align="center" >
 
-                <button name="delbtn" class="btn btn-dark" id="<?php echo $row["booking_id"];?>" value="Edit">Edit</button>
-                  <button name="delbtn" class="btn btn-success delbtn" id="<?php echo $row["booking_id"];?>" value="Delete">Delete</button>
-                <?php
-              }?>
+      <?php
+
+  $userwhobooked=$row['user_id'];
+  $book_id=$row['booking_id'];
+  $req_query="SELECT a_r from requesting_record where user_id='$uid' AND booking_id='$book_id';";
+  $req_q=mysqli_query($db,$req_query);
+
+      if ($req_q->num_rows <= 0)
+  {?>
+    <button name="reqbtn" class="btn btn-outline-warning reqbtn disabled" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Request</button>
+  <?php
+  }
+      else
+      {
+         $req=mysqli_fetch_array($req_q,MYSQLI_ASSOC);
+         $val= $req['a_r'];
+
+         if($val==0)
+         {?>
+            <span class="badge badge-pill badge-danger">Request Rejected!</span>
+       <?php }
+         elseif ($val==1) {?>
+           <span class="badge badge-pill badge-success">Request Accepted!</span>
+       <?php  }
+         elseif ($val==2) {?>
+           <span style="margin-top: -12px;" class="badge badge-pill badge-warning">Request Pending..</span>
+     <?php    }
+        
+       
+
+
+
+
+
+      }
+
+  ?>
+
+
+
+
+
   </div>
 </div>
     
@@ -148,7 +177,7 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
   
 $(document).ready(function(){
 
-  $('.delbtn').click(function(){
+  $('.reqbtn').click(function(){
       
       var id=$(this).attr("id");
 
@@ -157,7 +186,7 @@ $(document).ready(function(){
 
       $.ajax({
 
-       url:"delitem.php",
+       url:"reqitem.php",
        dataType:"text",
        method:"GET",
        data:{

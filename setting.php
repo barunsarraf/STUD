@@ -83,7 +83,9 @@ session_start();
         <div class="container">
   <img src="image2.jpg"  class="rounded float-left card-img-top"  alt="image">
 </div>
- <button align="left"  type="button" class="btn btn-dark btn-sm" style="margin-top: 5px;margin-left: 14px;max-width: 12rem;">Upload Photo</button>
+<label class="btn btn-default btn-file">
+    <i style="color: #A9A9A9" class="fa fa-picture-o" aria-hidden="true"></i> select image<input name="uploadedimage" type="file" style="display: none;">
+</label>
 </div>
 <div align="left">
 <class="card-text" style="color: #A9A9A9;font-size: 12px;margin-left: 14px" align="left" ><i class="fas fa-envelope"></i> 
@@ -104,10 +106,10 @@ session_start();
       <hr>
 
 
-      <form>
+      <form action="mh.php" method="post">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder= <?php 
+    <input type="text" class="form-control" id="name" name="uname" aria-describedby="emailHelp" placeholder= <?php 
 
     $pieces = explode(" ", $userrow['name']);
     echo $pieces[0];
@@ -120,41 +122,41 @@ session_start();
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="•••••••••••••••">
+    <input type="password" class="form-control" name="upass" id="exampleInputPassword1" placeholder="•••••••••••••••">
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=<?php echo $userrow['emailid']; ?> >
+    <input type="email" class="form-control" name="uemailid" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=<?php echo $userrow['emailid']; ?> >
     <small id="emailHelp" class="form-text text-muted">We'll share your email when you request for appointments..</small>
   </div>
   <hr>
   <h5 class="card-title">Topic Selection</h5>
   <hr>
   <div class="form-group" style="display: inline-block;">
-  <label for="add_topic" style=""><b>Add Topics</b></label>
-  <select id="add_topic" name="add_topic" multiple>
+  <label for="add" style=""><b>Add Topics</b></label>
+  <select id="add" name="catadd" multiple size="3" multiple="multiple" tabindex="1">
 
     <?php
-      $query2="SELECT DISTINCT topic_name FROM topics WHERE topic_name NOT IN (SELECT topic_name FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid')";
+      $query2="SELECT DISTINCT * FROM topics WHERE topic_name NOT IN (SELECT topic_name FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid')";
 
       $result2=mysqli_query($db,$query2);
       while ($rw=mysqli_fetch_array($result2,MYSQLI_ASSOC))
       {?>
-        <option value=<?php echo '$rw["topic_id"]'; ?>><?php echo $rw["topic_name"]; ?></option>
+        <option value=<?php echo $rw['topic_id']; ?>><?php echo $rw["topic_name"]; ?></option>
 
       <?php
       }
 ?>
 </select>
 <label for="deletetopic"><b>Remove Topics</b></label>
-  <select id="deletetopic" name="delete_topic" multiple>
+  <select id="deletetopic" name="catdelete" multiple size="3" multiple="multiple" tabindex="1">
      <?php
-      $query2="SELECT DISTINCT topic_name FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid'";
+      $query2="SELECT DISTINCT * FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid'";
 
       $result2=mysqli_query($db,$query2);
       while ($rw=mysqli_fetch_array($result2,MYSQLI_ASSOC))
       {?>
-        <option value=<?php echo '$rw["topic_id"]'; ?>><?php echo $rw["topic_name"]; ?></option>
+        <option value=<?php echo $rw['topic_id']; ?>><?php echo $rw["topic_name"]; ?></option>
       <?php
       }
 ?>
@@ -162,13 +164,30 @@ session_start();
 </div><br>
 <small class="form-text text-muted">Hold down the Ctrl (windows) / Command (Mac) button to select multiple options.</small>
 <br>
-  <button type="submit" class="btn btn-success">Submit</button>
+  <input name="update" type="submit" class="btn btn-primary mylabel" value="Update">
 </form>
+
+
 
     </div>
   </div>
+  <small align="right" class="form-text text-muted">Last Updated:</small>
 </div>
-  <b style="margin-left: 20px;"></b>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 </body>

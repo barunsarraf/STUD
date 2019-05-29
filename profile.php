@@ -35,7 +35,7 @@ session_start();
         <a class="nav-link" href="viewbookings.php">Bookings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Requests</a>
+        <a class="nav-link" href="request.php">Requests</a>
       </li>
     </ul>
     <a style="color: #fff">Welcome <b>
