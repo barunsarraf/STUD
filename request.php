@@ -8,7 +8,7 @@ session_start();
 <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Attend Appointment</title>
+<title>Incoming Requests</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    
@@ -69,9 +69,8 @@ session_start();
         
           <?php 
   $uid=$_SESSION["user_id"];
-  $query="SELECT DISTINCT booking_record.booking_id,booking_record.user_id,booking_record.topic_id,booking_record.from_time,booking_record.to_time,booking_record.dob
-FROM booking_record
-INNER JOIN user_interest_topics ON booking_record.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid' AND NOT booking_record.user_id='$uid' AND dob >= CURDATE() ORDER BY dob ASC;";
+  $query="SELECT booking_record.booking_id AS booking_id,booking_record.topic_id AS topic_id,booking_record.from_time as from_time,booking_record.to_time AS to_time, booking_record.dob as dob,requesting_record.requesting_id AS requesting_id,requesting_record.user_id AS requseid,requesting_record.a_r as res FROM booking_record INNER JOIN requesting_record ON booking_record.booking_id = requesting_record.booking_id WHERE booking_record.user_id=8 ORDER BY dob ASC";
+
   $rt=mysqli_query($db,$query);
    if ($rt->num_rows <= 0)
   {
@@ -81,7 +80,7 @@ INNER JOIN user_interest_topics ON booking_record.topic_id = user_interest_topic
   margin-right: auto;
   width: 35%;" src="nobooking.svg"><p align="center" style="margin-top: 10px"><b>
     <?php
-   echo "No Appointment's available";?></p></b>
+   echo "No Request recieved on your bookings";?></p></b>
     <?php
  }
  else
@@ -90,8 +89,8 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 { 
   ?><div style="padding-left: 15px;padding-right: 15px;padding-top: 10px; align-self: center;display: inline-block;" align="center"><?php
 
-  $userwhobooked=$row['user_id'];
-  $userwhobookedquery="SELECT * from users where user_id='$userwhobooked';";
+  $userwhorequest=$row['requseid'];
+  $userwhobookedquery="SELECT * from users where user_id='$userwhorequest';";
   $resultquery=mysqli_query($db,$userwhobookedquery);
   $resultuserbooked=mysqli_fetch_array($resultquery,MYSQLI_ASSOC);
 
@@ -116,27 +115,13 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
                       }?></small></class="card-text"><hr style="margin-top:-12px">
 
     <class="card-text" align="center" style="margin-top: -12px;display: inline-block;">From:<b> <?php echo $resultuserbooked['name']; ?></class="card-text"></b><br>
-    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Stud Rating: <?php echo $resultuserbooked['stud_ratting']; ?></class="card-text"><br>
+    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Bud Rating: <?php echo $resultuserbooked['bud_ratting']; ?></class="card-text"><br>
     <class="card-text" align="center" style="margin-top: -12px">Username: <b><?php echo $resultuserbooked['username']; ?></class="card-text"></b>
   </div>
     <div style="padding: 10px;display: inline-block;" align="center" >
-
       <?php
 
-  $userwhobooked=$row['user_id'];
-  $book_id=$row['booking_id'];
-  $req_query="SELECT a_r from requesting_record where user_id='$uid' AND booking_id='$book_id';";
-  $req_q=mysqli_query($db,$req_query);
-
-      if ($req_q->num_rows <= 0)
-  {?>
-    <button name="reqbtn" class="btn btn-outline-warning reqbtn disabled" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Request</button>
-  <?php
-  }
-      else
-      {
-         $req=mysqli_fetch_array($req_q,MYSQLI_ASSOC);
-         $val= $req['a_r'];
+         $val= $row['res'];
 
          if($val==0)
          {?>
@@ -144,19 +129,12 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
        <?php }
          elseif ($val==1) {?>
            <span class="badge badge-pill badge-success">Request Accepted!</span>
-       <?php  }
+       <?php }
          elseif ($val==2) {?>
-           <span style="margin-top: -12px;" class="badge badge-pill badge-warning">Request Pending..</span>
-     <?php    }
-        
-       
-
-
-
-
-
-      }
-
+         <button style="margin-top: -12px;" name="reqbtn" class="btn btn-outline-success reqbtn" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Accept</button>
+          <button style="margin-top: -12px;" name="reqbtn" class="btn btn-outline-danger reqbtn" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Reject</button>
+           
+     <?php }
   ?>
 
 

@@ -106,7 +106,7 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
     <div class="card-body" style="display: inline-block;">
       <h5 class="card-title" align="center"  ><?php  echo $r["topic_name"]; ?></h5><hr>
       <p class="card-text" align="center" style="align-self:center;margin-top: -12px"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
-            ?><br>
+            ?><br><small class="form-text text-muted">#SB<?php echo $row['booking_id']; ?></small>
       <class="card-text"><small align="center" class="text-muted"> <?php
             $date_now = date("Y-m-d");
             if ($date_now == $row["dob"]) {
@@ -114,8 +114,8 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
                 }else{
                 echo $row["dob"];
                       }?></small></class="card-text"><hr style="margin-top:-12px">
-
-    <class="card-text" align="center" style="margin-top: -12px;display: inline-block;">From:<b> <?php echo $resultuserbooked['name']; ?></class="card-text"></b><br>
+                      
+    <class="card-text" align="center" style="margin-top: -12px;display: inline-block;"><b> <?php echo $resultuserbooked['name']; ?></class="card-text"></b><br>
     <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Stud Rating: <?php echo $resultuserbooked['stud_ratting']; ?></class="card-text"><br>
     <class="card-text" align="center" style="margin-top: -12px">Username: <b><?php echo $resultuserbooked['username']; ?></class="card-text"></b>
   </div>

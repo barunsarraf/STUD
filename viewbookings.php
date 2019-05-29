@@ -117,7 +117,8 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
                   <class="card-text"><span class="badge badge-pill badge-warning" align="center" ><?php
                 echo $row["dob"];
                       }?></class="card-text"></span>
-    </div><hr>
+                      <small class="form-text text-muted">#SB<?php echo $row['booking_id']; ?></small>
+    </div><hr style="margin-top: -10px">
     <div style="display: inline-block; padding: 10px" align="center">
 
       <?php 
