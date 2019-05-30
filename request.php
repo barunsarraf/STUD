@@ -57,6 +57,7 @@ session_start();
     <button class="dropdown-item" type="button">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
     <hr>
     <button class="dropdown-item" type="button" onclick="window.location.href='signout.php'">Sign Out</button>
   </div>
@@ -69,7 +70,7 @@ session_start();
         
           <?php 
   $uid=$_SESSION["user_id"];
-  $query="SELECT booking_record.booking_id AS booking_id,booking_record.topic_id AS topic_id,booking_record.from_time as from_time,booking_record.to_time AS to_time, booking_record.dob as dob,requesting_record.requesting_id AS requesting_id,requesting_record.user_id AS requseid,requesting_record.a_r as res FROM booking_record INNER JOIN requesting_record ON booking_record.booking_id = requesting_record.booking_id WHERE booking_record.user_id=8 ORDER BY dob ASC";
+  $query="SELECT booking_record.booking_id AS booking_id,booking_record.topic_id AS topic_id,booking_record.from_time as from_time,booking_record.to_time AS to_time, booking_record.dob as dob,requesting_record.requesting_id AS requesting_id,requesting_record.user_id AS requseid,requesting_record.a_r as res FROM booking_record INNER JOIN requesting_record ON booking_record.booking_id = requesting_record.booking_id WHERE booking_record.user_id='$uid' ORDER BY dob ASC";
 
   $rt=mysqli_query($db,$query);
    if ($rt->num_rows <= 0)
@@ -125,14 +126,14 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 
          if($val==0)
          {?>
-            <span class="badge badge-pill badge-danger">Request Rejected!</span>
+            <span class="badge badge-pill badge-danger"><u>Request Rejected!</u></span>
        <?php }
          elseif ($val==1) {?>
-           <span class="badge badge-pill badge-success">Request Accepted!</span>
+           <span class="badge badge-pill badge-success"><u>Request Accepted!</u></span>
        <?php }
          elseif ($val==2) {?>
-         <button style="margin-top: -12px;" name="reqbtn" class="btn btn-outline-success reqbtn" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Accept</button>
-          <button style="margin-top: -12px;" name="reqbtn" class="btn btn-outline-danger reqbtn" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Reject</button>
+         <button style="margin-top: -12px;" name="acpbtn" class="btn btn-outline-success acpbtn" style="margin-top: -3rem" id="<?php echo $row["requesting_id"];?>" value="Accepthandle">Accept</button>
+          <button style="margin-top: -12px;" name="rejbtn" class="btn btn-outline-danger rejbtn" style="margin-top: -3rem" id="<?php echo $row["requesting_id"];?>" value="Rejecthandle">Reject</button>
            
      <?php }
   ?>
@@ -155,7 +156,7 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
   
 $(document).ready(function(){
 
-  $('.reqbtn').click(function(){
+  $('.rejbtn').click(function(){
       
       var id=$(this).attr("id");
 
@@ -164,7 +165,7 @@ $(document).ready(function(){
 
       $.ajax({
 
-       url:"reqitem.php",
+       url:"rejected_request.php",
        dataType:"text",
        method:"GET",
        data:{
@@ -173,17 +174,57 @@ $(document).ready(function(){
              
              var result=$.trim(data);
               
-              console.log(result);
+              console.log(id);
 
              if(result=='Y')
              {
-                
-              alert("Item Deleted");
+              alert("Rejected");
               header('Location: http://localhost/stud/viewbookings.php');
              }
              else
              {
-              alert('Not deleted');
+              alert('Not Rejected');
+             }
+       }
+      });
+  });
+
+});
+
+</script>
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+
+  $('.acpbtn').click(function(){
+      
+      var id=$(this).attr("id");
+
+     
+      console.log(id);
+
+      $.ajax({
+
+       url:"accept_request.php",
+       dataType:"text",
+       method:"GET",
+       data:{
+        id:id
+       },success:function(data){
+             
+             var result=$.trim(data);
+              
+              console.log(id);
+
+             if(result=='Y')
+             {
+              alert("Accepted");
+              header('Location: http://localhost/stud/viewbookings.php');
+             }
+             else
+             {
+              alert("Error Occured");
              }
        }
       });

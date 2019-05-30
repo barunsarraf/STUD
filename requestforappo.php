@@ -57,6 +57,7 @@ session_start();
     <button class="dropdown-item" type="button">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
     <hr>
     <button class="dropdown-item" type="button" onclick="window.location.href='signout.php'">Sign Out</button>
   </div>

@@ -147,17 +147,62 @@ else{
   </div>
     </div>
     <!-- -->
+    <?php
+    $uid=$_SESSION["user_id"];
+    $val=2;
+  $query="SELECT count(requesting_record.requesting_id) AS totreq,booking_record.booking_id AS booking_id,booking_record.topic_id AS topic_id,requesting_record.user_id AS requseid FROM booking_record INNER JOIN requesting_record ON booking_record.booking_id = requesting_record.booking_id WHERE booking_record.user_id='$uid' AND requesting_record.a_r='$val' ORDER BY dob ASC LIMIT 1";
+  $rt=mysqli_query($db,$query);
+  $row=mysqli_fetch_array($rt,MYSQLI_ASSOC);
+    ?>
+
+
+
+
+
+
     <p align="center" style="color: #263238"><b>Pending Requests</b></p>
+
+
+
+
     <div class="card border-dark mb-3" style="max-width: 250px;max-height: auto">
+
   <div class="row no-gutters">
-    <div class="col-md-4">
-      <img src="image.png" class="card-img" alt="image_alt" style="margin-top: 2px;margin-left: 1px">
+      <?php
+       if ($row['totreq'] == 0)
+        { ?>
+
+          <img src="noreq.svg" class="card-img" alt="norequest" style="margin-top: 5px;">
+          </div>
+
+
+          <?php
+        }
+
+        else
+        {
+         
+          $userreq=$row['requseid'];
+          $query="SELECT name from users where user_id='$userreq';";
+          $rt=mysqli_query($db,$query);
+          $rw=mysqli_fetch_array($rt,MYSQLI_ASSOC);
+          ?>
+            <div class="col-md-4">
+           <img src="newrequest.svg" class="card-img" alt="image_alt" style="margin-top: 27px;">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">Barun Sarraf</h5>
-        <p class="card-text">Marvel Series</p>
-		<button type="button" class="btn btn-outline-dark">View All <span class="badge badge-success">4</span></button>
+        <h6 class="card-title"><?php  echo $rw['name'];?></h6>
+        <p class="card-text">On: <?php $tid=$row['topic_id'];
+          $query="SELECT topic_name from topics where topic_id='$tid';";
+          $rt=mysqli_query($db,$query);
+          $rw=mysqli_fetch_array($rt,MYSQLI_ASSOC);
+          echo $rw['topic_name'];?></p>
+    <button type="button" class="btn btn-outline-dark" onclick="location.href ='request.php'" >View All <span class="badge badge-danger"><?php echo $row['totreq']; ?></span></button>
+    <?php
+        } 
+      ?>
+     
       </div>
     </div>
   </div>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="180" height="180" viewBox="0 0 180 180">
+  <defs>
+    <clipPath id="clip-custom_1">
+      <rect width="180" height="180"/>
+    </clipPath>
+  </defs>
+  <g id="custom_1" data-name="custom – 1" clip-path="url(#clip-custom_1)">
+    <rect width="180" height="180" fill="#fff"/>
+    <g id="undraw_not_found_60pq" transform="translate(29 -57)">
+      <ellipse id="Ellipse_16" data-name="Ellipse 16" cx="60.925" cy="13.43" rx="60.925" ry="13.43" transform="translate(0 169.585)" fill="silver"/>
+      <ellipse id="Ellipse_32" data-name="Ellipse 32" cx="20.972" cy="5.107" rx="20.972" ry="5.107" transform="translate(79.905 199.55)" fill="silver"/>
+      <circle id="Ellipse_20" data-name="Ellipse 20" cx="37.846" cy="37.846" r="37.846" transform="translate(8.663 90.457)" fill="#2f2e41"/>
+      <rect id="Rectangle_7" data-name="Rectangle 7" width="11.497" height="20.6" transform="translate(28.915 157.798) rotate(0.675)" fill="#2f2e41"/>
+      <rect id="Rectangle_8" data-name="Rectangle 8" width="11.497" height="20.6" transform="translate(51.908 158.069) rotate(0.675)" fill="#2f2e41"/>
+      <ellipse id="Ellipse_21" data-name="Ellipse 21" cx="3.593" cy="9.581" rx="3.593" ry="9.581" transform="translate(28.626 182.228) rotate(-89.325)" fill="#2f2e41"/>
+      <ellipse id="Ellipse_22" data-name="Ellipse 22" cx="3.593" cy="9.581" rx="3.593" ry="9.581" transform="translate(51.625 182.02) rotate(-89.325)" fill="#2f2e41"/>
+      <circle id="Ellipse_23" data-name="Ellipse 23" cx="12.935" cy="12.935" r="12.935" transform="translate(34.645 105.799)" fill="#fff"/>
+      <circle id="Ellipse_24" data-name="Ellipse 24" cx="4.312" cy="4.312" r="4.312" transform="translate(43.268 114.422)" fill="#3f3d56"/>
+      <path id="Path_9" data-name="Path 9" d="M60.481,518.912c-2.894-13.721,7.036-27.433,22.181-30.628s29.768,5.338,32.662,19.059-7.175,18.65-22.32,21.845S63.375,532.632,60.481,518.912Z" transform="translate(-50.266 -426.235)" fill="#28a745"/>
+      <path id="Path_10" data-name="Path 10" d="M181.1,606.193c0,26.385-15.684,35.6-35.034,35.6q-.672,0-1.343-.015c-.9-.019-1.784-.062-2.662-.122-17.462-1.236-31.029-10.922-31.029-35.461,0-25.394,32.451-57.437,34.888-59.809l0,0,.141-.136S181.1,579.809,181.1,606.193Z" transform="translate(-76.864 -456.778)" fill="#28a745"/>
+      <path id="Path_11" data-name="Path 11" d="M166.19,637.755,179,619.85l-12.845,19.87-.034,2.055c-.9-.019-1.784-.062-2.662-.122l1.381-26.4-.011-.2.023-.038.13-2.493L152.108,592.6l12.918,18.049.03.529,1.044-19.945-11.025-20.583,11.159,17.082,1.086-41.35,0-.141v.136l-.181,32.607,10.976-12.927L167.1,581.8l-.29,17.857,10.248-17.138-10.29,19.766-.162,9.928,14.877-23.853-14.933,27.317Z" transform="translate(-98.26 -456.778)" fill="#3f3d56"/>
+      <ellipse id="Ellipse_31" data-name="Ellipse 31" cx="5.94" cy="18.923" rx="5.94" ry="18.923" transform="matrix(0.372, -0.928, 0.928, 0.372, 15.108, 138.517)" fill="#2f2e41"/>
+    </g>
+    <text id="NO_REQUESTS" data-name="NO REQUESTS" transform="translate(50 172)" fill="#28a745" font-size="17" font-family="Antonio-Regular, Antonio"><tspan x="0" y="0">NO REQUESTS</tspan></text>
+    <rect id="Rectangle_9" data-name="Rectangle 9" width="53" height="13" transform="translate(-8 158)" fill="#2f2e41"/>
+    <rect id="Rectangle_10" data-name="Rectangle 10" width="53" height="13" transform="translate(132 158)" fill="#2f2e41"/>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <clipPath id="clip-custom_1">
+      <rect width="200" height="200"/>
+    </clipPath>
+  </defs>
+  <g id="custom_1" data-name="custom – 1" clip-path="url(#clip-custom_1)">
+    <rect width="200" height="200" fill="#fff"/>
+    <g id="undraw_elements_cipa" transform="translate(1240 468)">
+      <circle id="Ellipse_8" data-name="Ellipse 8" cx="62.616" cy="62.616" r="62.616" transform="translate(-1189.754 -420.18)" fill="#2f2e41"/>
+      <rect id="Rectangle_5" data-name="Rectangle 5" width="19.022" height="34.082" transform="translate(-1155.672 -308.422)" fill="#2f2e41"/>
+      <rect id="Rectangle_6" data-name="Rectangle 6" width="19.022" height="34.082" transform="translate(-1117.627 -308.422)" fill="#2f2e41"/>
+      <ellipse id="Ellipse_9" data-name="Ellipse 9" cx="15.852" cy="5.945" rx="15.852" ry="5.945" transform="translate(-1155.672 -279.889)" fill="#2f2e41"/>
+      <ellipse id="Ellipse_10" data-name="Ellipse 10" cx="15.852" cy="5.945" rx="15.852" ry="5.945" transform="translate(-1117.627 -280.682)" fill="#2f2e41"/>
+      <circle id="Ellipse_11" data-name="Ellipse 11" cx="21.4" cy="21.4" r="21.4" transform="translate(-1146.953 -394.816)" fill="#fff"/>
+      <circle id="Ellipse_12" data-name="Ellipse 12" cx="7.133" cy="7.133" r="7.133" transform="translate(-1132.687 -380.549)" fill="#3f3d56"/>
+      <path id="Path_3" data-name="Path 3" d="M175.326,296.273c-5.056-22.643,11.106-45.522,36.1-51.1s49.352,8.251,54.408,30.894-11.507,30.994-36.5,36.574S180.382,318.915,175.326,296.273Z" transform="translate(-1363.204 -712.068)" fill="#28a745"/>
+      <ellipse id="Ellipse_13" data-name="Ellipse 13" cx="31.308" cy="9.828" rx="31.308" ry="9.828" transform="translate(-1089.622 -379.112) rotate(-69.082)" fill="#2f2e41"/>
+      <ellipse id="Ellipse_14" data-name="Ellipse 14" cx="9.829" cy="31.308" rx="9.829" ry="31.308" transform="translate(-1230.163 -391.154) rotate(-64.626)" fill="#2f2e41"/>
+      <path id="Path_4" data-name="Path 4" d="M213.4,409.947c0,6.128,15.78,18.23,33.29,18.23s33.927-17.254,33.927-23.382-16.417,1.189-33.927,1.189S213.4,403.819,213.4,409.947Z" transform="translate(-1371.291 -744.922)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
