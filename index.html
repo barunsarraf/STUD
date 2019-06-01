@@ -1,8 +1,15 @@
+<?php
+include "config.php";
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>STUD | APPOITMENT | 2019</title>
-<meta charset="UTF-8">
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Welcome</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -19,63 +26,115 @@
 <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 <link rel="stylesheet" type="text/css" href="css/util.css">
 <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
-<div class="header" id="home1">
-        <div class="container">
-            <div class="w3l_logo">
-                <h1 style="text-align: center;"><a href="index.html">STUD<br><span ><b>S</b>HARE | <b>T</b>HOUGHTS | <b>U</b>SER | <b>D</b>IRECTLY</span></a></h1>
-	
-	<div class="limiter">
-		<div class="container-login100">
-			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="process.php" method="post">
-					<span class="login100-form-title p-b-26">
-						Welcome
-					</span>				
-					<div class="wrap-input100 validate-input" >
-						<input placeholder="Username" class="input100" type="text" name="u_name">
-						
-					</div>
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<span class="btn-show-pass">
-							<i class="zmdi zmdi-eye"></i>
-						</span>
-						<input placeholder="Password" class="input100" type="password" name="password">
-						
-					</div>
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								Login
-							</button>
-						</div>
-					</div>
-					
-					<div class="text-center p-t-115">
-						<span class="txt1">
-							Don’t have an account?
-						</span>
 
-						<a class="txt2" href="register.php">
-							Sign Up
-						</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div id="dropDownSelect1"></div>
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="vendor/animsition/js/animsition.min.js"></script>
+
+
+<!--  -->
+
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head> 
+<style type="text/css">
+  
+
+</style>
+
+<body>
+	
+<div >
+
+	<div style="display: block;"></div><span> <!--HIDDEN TEXT-->
+
+	<div style="padding: 50px,border-radius: 8px;float: right;display: inline-block;">
+	
+        <div class="container" >
+            <div class="w3l_logo" style="margin-right: 250px: ">
+                <h1 style="text-align: center;"><a href="index.html">STUD<br><span ><b>S</b>HARE | <b>T</b>HOUGHTS | <b>U</b>SER | <b>D</b>IRECTLY</span></a></h1>
+  
+  <div class="limiter">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <form class="login100-form validate-form" action="process.php" method="post">
+          <span class="login100-form-title p-b-26">
+            Welcome
+          </span>       
+          <div class="wrap-input100 validate-input" >
+            <input placeholder="Username" class="input100" type="text" name="u_name">
+            
+          </div>
+          <div class="wrap-input100 validate-input" data-validate="Enter password">
+            <span class="btn-show-pass">
+              <i class="zmdi zmdi-eye"></i>
+            </span>
+            <input placeholder="Password" class="input100" type="password" name="password">
+            
+          </div>
+          <div class="container-login100-form-btn">
+            <div class="wrap-login100-form-btn">
+              <div class="login100-form-bgbtn"></div>
+              <button class="login100-form-btn">
+                Login
+              </button>
+            </div>
+          </div>
+          
+          <div class="text-center p-t-115">
+            <span class="txt1">
+              Don’t have an account?
+            </span>
+
+            <a style="margin-top: -250px" class="txt2" href="register.php">
+              Sign Up
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="dropDownSelect1"></div>
+  <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+  <script src="vendor/animsition/js/animsition.min.js"></script>
     <script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="vendor/select2/select2.min.js"></script>
-	<script src="vendor/daterangepicker/moment.min.js"></script>
-	<script src="vendor/daterangepicker/daterangepicker.js"></script>
-	<script src="vendor/countdowntime/countdowntime.js"></script>
-	<script src="js/main.js"></script>
-</div></div></div>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="vendor/select2/select2.min.js"></script>
+  <script src="vendor/daterangepicker/moment.min.js"></script>
+  <script src="vendor/daterangepicker/daterangepicker.js"></script>
+  <script src="vendor/countdowntime/countdowntime.js"></script>
+  <script src="js/main.js"></script>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+  
+</span>
+     <div class="w3l_logo">
+               
+  <img src="login_image.svg"  style="width: 496px;display: inline-block;margin-left: -250px;margin-top: 150px;position: relative;" class="rounded float-left card-img-top"  alt="image">
+</div>
+
+</div>
+
+
+
+
+
+
+	
+
+
+</div>
+
+</div>
+
 </body>
 </html>
+	

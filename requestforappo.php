@@ -31,14 +31,9 @@ session_start();
       <li class="nav-item">
         <a class="nav-link" href="book.php">Become Stud</a>
       </li>
+     
       <li class="nav-item">
-        <a class="nav-link" href="#">Topics</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Bookings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Requests</a>
+        <a class="nav-link" href="viewbookings.php">Bookings</a>
       </li>
     </ul>
     <a style="color: #fff">Logged In: <b>  <?php
@@ -54,7 +49,7 @@ session_start();
   </button>
   <div class="dropdown-menu dropdown-menu-right">
     <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'">Your profile</button>
-    <button class="dropdown-item" type="button">Settings</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='setting.php'">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
     <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
@@ -70,9 +65,9 @@ session_start();
         
           <?php 
   $uid=$_SESSION["user_id"];
-  $query="SELECT DISTINCT booking_record.booking_id,booking_record.user_id,booking_record.topic_id,booking_record.from_time,booking_record.to_time,booking_record.dob
-FROM booking_record
-INNER JOIN user_interest_topics ON booking_record.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid' AND NOT booking_record.user_id='$uid' AND dob >= CURDATE() ORDER BY dob ASC;";
+  $pending=2;
+  $query="SELECT * from booking_record where stud_id='$uid' AND dob>= CURDATE() AND booking_status='$pending' ORDER BY dob ASC;";
+  
   $rt=mysqli_query($db,$query);
    if ($rt->num_rows <= 0)
   {
@@ -80,7 +75,7 @@ INNER JOIN user_interest_topics ON booking_record.topic_id = user_interest_topic
     margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
-  width: 35%;" src="nobooking.svg"><p align="center" style="margin-top: 10px"><b>
+  width: 35%;" src="noappoit.svg"><p align="center" style="margin-top: 10px"><b>
     <?php
    echo "No Appointment's available";?></p></b>
     <?php
@@ -91,23 +86,23 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 { 
   ?><div style="padding-left: 15px;padding-right: 15px;padding-top: 10px; align-self: center;display: inline-block;" align="center"><?php
 
-  $userwhobooked=$row['user_id'];
+  $userwhobooked=$row['bud_id'];
   $userwhobookedquery="SELECT * from users where user_id='$userwhobooked';";
   $resultquery=mysqli_query($db,$userwhobookedquery);
   $resultuserbooked=mysqli_fetch_array($resultquery,MYSQLI_ASSOC);
 
   $tid=$row['topic_id'];
-  $q="SELECT topic_name from topics where topic_id='$tid';";
+  $q="SELECT name from topics where id='$tid';";
   $result=mysqli_query($db,$q);
   $r=mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-          ?>
+  ?>
 
   <div class="card" style="background-color: #fff;max-width: 18rem;width:16rem;box-shadow: 0px 8px 6px -3px #BDBDBD;">
     <div class="card-body" style="display: inline-block;">
-      <h5 class="card-title" align="center"  ><?php  echo $r["topic_name"]; ?></h5><hr>
+      <h5 class="card-title" align="center"  ><?php  echo $r["name"]; ?></h5><hr>
       <p class="card-text" align="center" style="align-self:center;margin-top: -12px"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
-            ?><br><small class="form-text text-muted">#SB<?php echo $row['booking_id']; ?></small>
+            ?><br><small class="form-text text-muted">#SB<?php echo $row['id']; ?></small>
       <class="card-text"><small align="center" class="text-muted"> <?php
             $date_now = date("Y-m-d");
             if ($date_now == $row["dob"]) {
@@ -117,49 +112,21 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
                       }?></small></class="card-text"><hr style="margin-top:-12px">
                       
     <class="card-text" align="center" style="margin-top: -12px;display: inline-block;"><b> <?php echo $resultuserbooked['name']; ?></class="card-text"></b><br>
-    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Stud Rating: <?php echo $resultuserbooked['stud_ratting']; ?></class="card-text"><br>
+    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Bud Rating: <?php echo $resultuserbooked['bud_rating']; ?></class="card-text"><br>
     <class="card-text" align="center" style="margin-top: -12px">Username: <b><?php echo $resultuserbooked['username']; ?></class="card-text"></b>
   </div>
     <div style="padding: 10px;display: inline-block;" align="center" >
 
-      <?php
 
-  $userwhobooked=$row['user_id'];
-  $book_id=$row['booking_id'];
-  $req_query="SELECT a_r from requesting_record where user_id='$uid' AND booking_id='$book_id';";
-  $req_q=mysqli_query($db,$req_query);
 
-      if ($req_q->num_rows <= 0)
-  {?>
-    <button name="reqbtn" class="btn btn-outline-warning reqbtn disabled" style="margin-top: -3rem" id="<?php echo $row["booking_id"];?>" value="Requesthandle">Request</button>
-  <?php
-  }
-      else
-      {
-         $req=mysqli_fetch_array($req_q,MYSQLI_ASSOC);
-         $val= $req['a_r'];
-
-         if($val==0)
-         {?>
-            <span class="badge badge-pill badge-danger">Request Rejected!</span>
-       <?php }
-         elseif ($val==1) {?>
-           <span class="badge badge-pill badge-success">Request Accepted!</span>
-       <?php  }
-         elseif ($val==2) {?>
-           <span style="margin-top: -12px;" class="badge badge-pill badge-warning">Request Pending..</span>
-     <?php    }
-        
-       
+      <button style="margin-top: -12px;" name="acpbtn" class="btn btn-outline-success acpbtn" style="margin-top: -3rem" id="<?php echo $row["id"];?>" dobid="<?php echo $row["dob"];?>" fromid="<?php echo $row["from_time"];?>" toid="<?php echo $row["to_time"];?>" bid="<?php echo $row["bud_id"];?>" value="Accepthandle">Accept</button>
 
 
 
+          <button style="margin-top: -12px;" name="rejbtn" class="btn btn-outline-danger rejbtn" style="margin-top: -3rem" id="<?php echo $row["id"];?>" value="Rejecthandle">Reject</button>
 
-
-      }
-
-  ?>
-
+<?php
+}?>
 
 
 
@@ -171,14 +138,14 @@ while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 
 </div>
 <?php
-}}
+}
 ?>
 
 <script type="text/javascript">
   
 $(document).ready(function(){
 
-  $('.reqbtn').click(function(){
+  $('.rejbtn').click(function(){
       
       var id=$(this).attr("id");
 
@@ -187,7 +154,7 @@ $(document).ready(function(){
 
       $.ajax({
 
-       url:"reqitem.php",
+       url:"rejected_request.php",
        dataType:"text",
        method:"GET",
        data:{
@@ -196,18 +163,67 @@ $(document).ready(function(){
              
              var result=$.trim(data);
               
+              console.log(id);
+
+             if(result=='Y')
+             {
+              alert("Rejected");
+              header('Location: http://localhost/stud/requestforappo.php');
+             }
+             else
+             {
+              alert('Not Rejected');
+             }
+       }
+      });
+  });
+
+});
+
+</script>
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+
+  $('.acpbtn').click(function(){
+      
+      var id=$(this).attr("id");
+      var bid=$(this).attr("bid");
+      var dobid=$(this).attr("dobid");
+      var fromid=$(this).attr("fromid");
+      var toid=$(this).attr("toid");
+
+     
+    
+
+      $.ajax({
+
+       url:"accept_request.php",
+       dataType:'text',
+       method:"POST",
+       data:{
+        id:id,
+        bid:bid,
+        dobid:dobid,
+        fromid:fromid,
+        toid:toid
+       },success:function(response){
+              var result=$.trim(data);
+              
               console.log(result);
 
              if(result=='Y')
              {
                 
-              alert("Item Deleted");
-              header('Location: http://localhost/stud/viewbookings.php');
+              alert("Accepted");
+              header('Location: http://localhost/stud/profile.php');
              }
              else
              {
-              alert('Not deleted');
+              alert('Error');
              }
+            
        }
       });
   });

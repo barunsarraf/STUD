@@ -1,3 +1,3 @@
 <?php
-$db=mysqli_connect("localhost","root","","new_stud");
+$db=mysqli_connect("localhost","root","","stud");
 ?>

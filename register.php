@@ -42,6 +42,11 @@
                         <input class="input100" placeholder="Useame" type="text" name="u_name" required>
                         
                     </div>
+                    <div class="wrap-input100 validate-input" data-validate = "Enter Email">
+                        <input placeholder="Enter Email" class="input100" type="text" name="email_id" required>
+                       
+                    </div>
+                    
                     <div class="wrap-input100 validate-input" data-validate="Enter password">
                         <span class="btn-show-pass">
                             <i class="zmdi zmdi-eye"></i>

@@ -8,9 +8,9 @@ session_start();
 <head>
   <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Bookings</title>
+<title>search result</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
    
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -31,13 +31,17 @@ session_start();
       <li class="nav-item">
         <a class="nav-link" href="book.php">Become Stud</a>
       </li>
-    
-      <li class="nav-item active">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Topics</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Bookings</a>
       </li>
-    
+      <li class="nav-item">
+        <a class="nav-link" href="#">Requests</a>
+      </li>
     </ul>
-    <a style="color: #fff">Logged In: <b>  <?php
+    <a style="color: #fff">Logged In: <b><?php
       $uid=$_SESSION["user_id"];
       $query="SELECT name from users where user_id='$uid'";
       $result=mysqli_query($db,$query);
@@ -53,6 +57,7 @@ session_start();
     <button class="dropdown-item" type="button">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
     <hr>
     <button class="dropdown-item" type="button" onclick="window.location.href='signout.php'">Sign Out</button>
   </div>
@@ -60,121 +65,97 @@ session_start();
 
   </div>
 </nav>
+  
+        <?php 
 
-      
-        
-          <?php 
-  $uid=$_SESSION["user_id"];
-  $pending=2;
-  $query="SELECT * FROM booking_record where bud_id='$uid' AND booking_status='$pending' AND dob>=CURDATE() ORDER BY dob ASC;";
-  $rt=mysqli_query($db,$query);
+        $uid=$_SESSION["user_id"];
+        $b_date = $_POST['booking_date'];
+        $ftime=$_POST['from_time'];
+        $ttime=$_POST['to_time'];
+        $topp=$_POST['topic_category'];
+        $date_now = date("Y-m-d");
+
+     
+       
+        $date = DateTime::createFromFormat( 'H:i A', $ftime);
+        $formatted_ftime = $date->format( 'H:i:s');
+        $date = DateTime::createFromFormat( 'H:i A', $ttime);
+        $formatted_ttime = $date->format( 'H:i:s');
+
+        $query="SELECT * from users INNER JOIN stud_interest_topics ON users.user_id=stud_interest_topics.stud_id where topic_id='$topp' AND NOT users.user_id='$uid'";
+        $rt=mysqli_query($db,$query);
    if ($rt->num_rows <= 0)
   {
-    ?><img align="center" style="width: 400px;display: block;
+    ?>
+    <img align="center" style="width: 400px;display: block;
     margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
-  width: 35%;" src="nobooking.svg"><p align="center"><b>
+  width: 35%;" src="nobooking.svg"><p align="center" style="margin-top: 10px"><b>
     <?php
-   echo "No Bookings";?></p></b>
-   <div style="text-align: center;">
-    <button type="button" class="btn btn-dark" style=" position: relative;align-self: center;" align="center" onclick="location.href ='book.php'">Book Now</button>
-</div>
-   
-    <?php
+   echo "Zero Result Found";?></p></b>
+  <?php
  }
  else
  {
 while ($row=mysqli_fetch_array($rt,MYSQLI_ASSOC))
 { 
-  ?>
-
-
-
-
-  <div style="padding-left: 15px;padding-right: 15px;padding-top: 10px; align-self: center;display: inline-block;" align="center">
-
-  <?php
-  $tid=$row['topic_id'];
-  $sid=$row['stud_id'];
-  $q="SELECT name from topics where id='$tid';";
-  $result=mysqli_query($db,$q);
-  if (!$result) {
-    printf("Error: %s\n", mysqli_error($db));
-    exit();
-}
-  $r=mysqli_fetch_array($result,MYSQLI_ASSOC);
-
-
-  $stud_query="SELECT * from users where user_id='$sid';";
-  
-  $stud_result=mysqli_query($db,$stud_query);
-  
-  $stud_row=mysqli_fetch_array($stud_result,MYSQLI_ASSOC);
-
+  ?><div style="padding-left: 15px;padding-right: 15px;padding-top: 10px; align-self: center;display: inline-block;" align="center"><?php
           ?>
 
-
-
-  <div class="card" style="background-color: #fff;max-width: 18rem;width:16rem;box-shadow: 0 8px 6px -5px #BDBDBD;">
+  <div class="card" style="background-color: #fff;max-width: 18rem;width:16rem;box-shadow: 0px 8px 6px -3px #BDBDBD;">
     <div class="card-body" style="display: inline-block;">
-      <h5 class="card-title" align="center" style="align-self: center;" ><?php  echo $r["name"]; ?></h5>
-      <class="card-text" align="center"><?php echo date("g:i a", strtotime($row["from_time"]));?> - <?php echo date("g:i a", strtotime($row["to_time"]));
-            ?><br></class="card-text">
+      <h5 class="card-title" align="center" style="text-transform: uppercase;"><?php  echo $row["name"]; ?></h5><hr>
+
       
+      <p class="card-text" align="center" style="align-self:center;margin-top: -40px"><br><small class="form-text text-muted">#UID<?php echo $row['user_id']; ?></small>
+      
+                      
+    <class="card-text" align="center" style="margin-top: -12px"><i style="color:  #FCC305" class="fas fa-star-half-alt"></i> Stud Rating: <?php echo $row['stud_rating']; ?></class="card-text">
+    <hr style="margin-top:-12px">
 
-
-      <?php
-            $date_now = date("Y-m-d");
-            if ($date_now == $row["dob"]) {
-                ?><b><class="card-text"><span class="badge badge-pill badge-danger" align="center" ><?php echo 'Today'; ?></span></b><?php
-                }else{
-                  ?>
-                  <class="card-text"><span class="badge badge-pill badge-warning" align="center" ><?php
-                echo $row["dob"];
-                      }?></class="card-text"></span>
-                      <small class="form-text text-muted">#SB<?php echo $row['id']; ?></small>
-                      <span style="margin-top: -12px;" class="badge badge-pill badge-warning">Request Pending...</span>
-    </div><hr style="margin-top: -10px"> 
-    <class="card-text" style="text-transform: uppercase;"><?php echo $stud_row["name"]; ?></class="card-text">
-
-    <small class="form-text text-muted">username: <?php echo $stud_row['username']; ?></small>
-    <class="card-text" >Stud Rating: <b><?php echo $stud_row["stud_rating"]; ?></class="card-text"></b>
-
-
-    <div style="display: inline-block; padding: 10px" align="center">
+  </div>
+    <div style="padding: 10px;display: inline-block;" align="center" >
 
      
-          <button name="delbtn" class="btn btn-success delbtn" id="<?php echo $row["id"];?>" value="Delete">Delete</button>
-      <?php
-      }?>
+    <button name="reqbtn" class="btn btn-outline-warning reqbtn" style="margin-top: -3rem" ids="<?php echo $row["user_id"];?>" idtopic="<?php echo $topp;?>" idb="<?php echo $b_date;?>" idf="<?php echo $formatted_ftime;?>" idt="<?php echo $formatted_ttime;?>"  value="Requesthandle">Book</button>
   </div>
 </div>
     
   </div>
-
-</div>
-<?php }
+<?php
+}}
 ?>
+
+
+
 
 <script type="text/javascript">
   
 $(document).ready(function(){
 
-  $('.delbtn').click(function(){
+  $('.reqbtn').click(function(){
       
-      var id=$(this).attr("id");
+      var ids=$(this).attr("ids");
+      var idtopic=$(this).attr("idtopic");
+      var idb=$(this).attr("idb");
+      var idf=$(this).attr("idf");
+      var idt=$(this).attr("idt");
 
      
-      console.log(id);
+      console.log(idtopic);
 
       $.ajax({
 
-       url:"delitem.php",
+       url:"reqitem.php",
        dataType:"text",
        method:"GET",
        data:{
-        id:id
+        ids:ids,
+        idtopic:idtopic,
+        idb:idb,
+        idf:idf,
+        idt:idt
        },success:function(data){
              
              var result=$.trim(data);
@@ -184,12 +165,12 @@ $(document).ready(function(){
              if(result=='Y')
              {
                 
-              alert("Item Deleted");
-              header('Location: http://localhost/stud/viewbookings.php');
+              alert("Request Sent");
+              header('Location: http://localhost/stud/profile.php');
              }
              else
              {
-              alert('Not deleted');
+              alert('Request Not Sent');
              }
        }
       });
@@ -198,12 +179,6 @@ $(document).ready(function(){
 });
 
 </script>
-
-
-
-      </div>
-
-
+</div>
 </body>
 </html>
-  

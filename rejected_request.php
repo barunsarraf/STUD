@@ -7,7 +7,7 @@ $rejectvalue=0;
 
 
 
-$res=mysqli_query($db,"UPDATE `requesting_record` SET `a_r`='$rejectvalue'  WHERE requesting_id='".$_GET['id']."'");
+$res=mysqli_query($db,"UPDATE `booking_record` SET `booking_status`='$rejectvalue'  WHERE id='".$_GET['id']."'");
 
 if($res===TRUE)
 echo "Y";

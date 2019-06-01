@@ -26,20 +26,16 @@ session_start();
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="profile.php">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="book.php">Become Stud</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Topics</a>
-      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="viewbookings.php">Bookings</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Requests</a>
-      </li>
+    
     </ul>
     <a style="color: #fff">Logged In: <b>
       <?php
@@ -56,10 +52,12 @@ session_start();
     settings
   </button>
   <div class="dropdown-menu dropdown-menu-right">
-    <button class="dropdown-item" type="button">Your profile</button>
-    <button class="dropdown-item" type="button">Settings</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'">Your profile</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='setting.php'">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
+
     <hr>
     <button class="dropdown-item" type="button" onclick="window.location.href='signout.php'">Sign Out</button>
   </div>
@@ -78,18 +76,24 @@ session_start();
     <div style="display: block;"></div><span> <!--HIDDEN TEXT-->
 
   <div style="padding: 20px,border-radius: 5px;float: left;display: inline-block;">
-  <div style="max-width: 18rem;" align="left">
-    <div style="width: 14rem;"">
+  <div style="max-width: 25rem;" align="left">
+    <div style="width: 16rem;"">
         <div class="container">
-  <img src="image2.jpg"  class="rounded float-left card-img-top"  alt="image">
+  <img src="settingimage.svg"  class="rounded float-left card-img-top"  alt="image">
 </div>
-<label class="btn btn-default btn-file">
-    <i style="color: #A9A9A9" class="fa fa-picture-o" aria-hidden="true"></i> select image<input name="uploadedimage" type="file" style="display: none;">
-</label>
+
 </div>
 <div align="left">
-<class="card-text" style="color: #A9A9A9;font-size: 12px;margin-left: 14px" align="left" ><i class="fas fa-envelope"></i> 
-<?php echo $userrow['emailid'];?></class="card-text"><br>
+<class="card-text btn btn-default " style="color: #A9A9A9;font-size: 12px;margin-left: 14px" align="left" ><i class="fas fa-envelope"></i> 
+<?php
+$em=$userrow['email_id'];
+if(is_null($em))
+  {echo "update email id";}
+else
+{
+  echo $em;
+}
+?></class="card-text"><br>
 <br>
     
 </div>
@@ -106,57 +110,48 @@ session_start();
       <hr>
 
 
-      <form action="mh.php" method="post">
+      <form action="" method="post">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" id="name" name="uname" aria-describedby="emailHelp" placeholder= <?php 
-
-    $pieces = explode(" ", $userrow['name']);
-    echo $pieces[0];
-    echo $pieces[1]; ?>
-
-
-
-
-           >
+    <input type="text" class="form-control" id="name" name="uname" aria-describedby="emailHelp" placeholder="Enter Your Name for Update" recquired>
   </div>
   <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" name="upass" id="exampleInputPassword1" placeholder="•••••••••••••••">
+    <input type="password" class="form-control" name="upass" id="exampleInputPassword1" placeholder="•••••••••••••••" required>
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" name="uemailid" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=<?php echo $userrow['emailid']; ?> >
-    <small id="emailHelp" class="form-text text-muted">We'll share your email when you request for appointments..</small>
+    <input type="email" class="form-control" name="uemailid" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=<?php echo $userrow['email_id']; ?> required>
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email when you request for appointments..</small>
   </div>
   <hr>
   <h5 class="card-title">Topic Selection</h5>
   <hr>
   <div class="form-group" style="display: inline-block;">
   <label for="add" style=""><b>Add Topics</b></label>
-  <select id="add" name="catadd" multiple size="3" multiple="multiple" tabindex="1">
+  <select id="add" name="catadd" size="3"  tabindex="1" required>
 
     <?php
-      $query2="SELECT DISTINCT * FROM topics WHERE topic_name NOT IN (SELECT topic_name FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid')";
+      $query2="SELECT DISTINCT * FROM topics WHERE name NOT IN (SELECT name FROM topics LEFT JOIN stud_interest_topics ON topics.id = stud_interest_topics.topic_id WHERE stud_interest_topics.stud_id='$uid')";
 
       $result2=mysqli_query($db,$query2);
       while ($rw=mysqli_fetch_array($result2,MYSQLI_ASSOC))
       {?>
-        <option value=<?php echo $rw['topic_id']; ?>><?php echo $rw["topic_name"]; ?></option>
+        <option value=<?php echo $rw['id']; ?>><?php echo $rw["name"]; ?></option>
 
       <?php
       }
 ?>
 </select>
 <label for="deletetopic"><b>Remove Topics</b></label>
-  <select id="deletetopic" name="catdelete" multiple size="3" multiple="multiple" tabindex="1">
+  <select id="deletetopic" name="catdelete" size="3" tabindex="1" required>
      <?php
-      $query2="SELECT DISTINCT * FROM topics LEFT JOIN user_interest_topics ON topics.topic_id = user_interest_topics.topic_id WHERE user_interest_topics.user_id='$uid'";
+      $query2="SELECT DISTINCT * FROM topics LEFT JOIN stud_interest_topics ON topics.id = stud_interest_topics.topic_id WHERE stud_interest_topics.stud_id='$uid'";
 
       $result2=mysqli_query($db,$query2);
       while ($rw=mysqli_fetch_array($result2,MYSQLI_ASSOC))
       {?>
-        <option value=<?php echo $rw['topic_id']; ?>><?php echo $rw["topic_name"]; ?></option>
+        <option value=<?php echo $rw['id']; ?>><?php echo $rw["name"]; ?></option>
       <?php
       }
 ?>
@@ -171,24 +166,46 @@ session_start();
 
     </div>
   </div>
-  <small align="right" class="form-text text-muted">Last Updated:</small>
+  <small align="right" class="form-text text-muted">Last Updated: <?php echo $userrow['last_updated']; ?></small>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </div>
+<?php
+  
+  
+
+  if(isset($_POST['update']))
+  {
+
+    $usname=$_POST['uname'];
+    $uspass=$_POST['upass'];
+    $usem=$_POST['uemailid'];
+    $usaddtopic=$_POST['catadd'];
+    $usdeltopic=$_POST['catdelete'];
+
+
+    $password = password_hash($uspass, PASSWORD_DEFAULT);
+    $hash =  md5( rand(0,1000) );
+
+
+         $query1="UPDATE users set pass='$password' , hash= '$hash',name='$usname',email_id='$usem' WHERE user_id= '$uid' ";
+        $result1=mysqli_query($db,$query1);
+
+    $query2= "INSERT INTO `stud_interest_topics`(`stud_id`, `topic_id`) VALUES ('$uid','$usaddtopic')";
+    $result2=mysqli_query($db,$query2);
+    
+    $query3= "DELETE FROM stud_interest_topics WHERE stud_id=1 AND topic_id='$usdeltopic'";
+    $result3=mysqli_query($db,$query3);
+      
+     
+
+  
+      }
+
+
+  ?>
+
+
 
 </body>
 </html>

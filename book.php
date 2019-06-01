@@ -1,4 +1,5 @@
 <?php
+include "config.php";
 session_start();
 ?>
 
@@ -34,28 +35,35 @@ session_start();
         <a class="nav-link" href="profile.php">Home</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="#">Become Stud</a>
+        <a class="nav-link" href="book.php">Become Stud</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Topics</a>
-      </li>
+    
       <li class="nav-item">
         <a class="nav-link" href="viewbookings.php">Bookings</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Requests</a>
-      </li>
+    
     </ul>
-    <a style="color: #fff">Logged In: <b>Barun Sarraf</b></a>&nbsp &nbsp
+    <a style="color: #fff">Logged In: <b>
+      <?php
+      $uid=$_SESSION["user_id"];
+      $query="SELECT name from users where user_id='$uid'";
+      $result=mysqli_query($db,$query);
+      $row=mysqli_fetch_array($result,MYSQLI_ASSOC);
+      echo $row["name"];
+      ?>
+
+
+    </b></a>&nbsp &nbsp
     <div class="btn-group">
   <button type="button" class="btn btn-outline-success my-2 my-sm-0 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="submit">
     settings
   </button>
   <div class="dropdown-menu dropdown-menu-right">
     <button class="dropdown-item" type="button" onclick="window.location.href='user_profile.php'">profile</button>
-    <button class="dropdown-item" type="button">Settings</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='setting.php'">Settings</button>
     <hr>
     <button class="dropdown-item" type="button">Help</button>
+    <button class="dropdown-item" type="button" onclick="window.location.href='track.php'">Track</button>
     <hr>
     <button class="dropdown-item" type="button" onclick="window.location.href='signout.php'">Sign Out</button>
   </div>
@@ -72,7 +80,7 @@ session_start();
   <div class="card text-white bg-dark mb-3" style="max-width: 25rem;">
   <div class="card-header">Select Date, Time and Topic of your interest.</div>
 </div>
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                    <form action="sea.php" method="POST">
                     <p id="basicExample">
                       <b>Date</b>
                     <input type="text" name="booking_date" style="
@@ -109,7 +117,7 @@ session_start();
     <script type="text/javascript">
       
     </script>
-    <button type="submit" name="submit" class="btn btn-outline-succes" >Book</button>
+    <button type="submit" name="submit" class="btn btn-outline-succes" >Search</button>
   </div>
                 
                 
@@ -130,37 +138,6 @@ session_start();
                 var datepair = new Datepair(basicExampleEl);
             </script>
 </div>
-<?php 
-include "config.php";
-    if(isset($_POST['submit'])){
-        $b_date = $_POST['booking_date'];
-        $ftime=$_POST['from_time'];
-        $ttime=$_POST['to_time'];
-        $userid=$_SESSION["user_id"];
-        $topp=$_POST['topic_category'];
-
-        $date = DateTime::createFromFormat( 'H:i A', $ftime);
-        $formatted_ftime = $date->format( 'H:i:s');
-        $date = DateTime::createFromFormat( 'H:i A', $ttime);
-        $formatted_ttime = $date->format( 'H:i:s');
-
-        $query="INSERT INTO `booking_record`(`user_id`, `topic_id`, `from_time`, `to_time`, `dob`) VALUES ('$userid','$topp','$formatted_ftime','$formatted_ttime','$b_date')";
-
-        $result=mysqli_query($db,$query);
-?>
-     
-
-<?php
-        echo "Appointment Booked!!";
-    }
-?>
-
-
-
-
-
-
-  
 
 
 </div>
