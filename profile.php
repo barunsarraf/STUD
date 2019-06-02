@@ -17,6 +17,7 @@ session_start();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head> 
+
 <body style="  height: 100%;
     background-image: url(background.svg);
     background-size:100% 100%;
@@ -26,34 +27,34 @@ session_start();
 
 >
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-warning" style="  box-shadow: 0 2px 2px -2px rgba(0,0,0,.3);">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">
-    <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-    Bootstrap
+  <a class="navbar-brand" style="color: #2F2E41" href="profile.php">
+    <img src="logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    STUD
   </a>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#" style="color: #2F2E41;"><b>Home</b> <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="book.php">Become Stud</a>
+        <a class="nav-link" href="book.php" style="color: #2F2E41;">Become Stud</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="viewbookings.php">Bookings</a>
+        <a class="nav-link" href="viewbookings.php" style="color: #2F2E41;">Bookings</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">Services</a>
+        <a class="nav-link" href="#" style="color: #2F2E41;">Services</a>
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="#">About Us</a>
+        <a class="nav-link" href="#" style="color: #2F2E41;">About Us</a>
       </li>
     </ul>
-    <a style="color: #fff">Welcome <b>
+    <a style="color: #2F2E41;">Welcome <b>
       <?php
       $uid=$_SESSION["user_id"];
       $query="SELECT name from users where user_id='$uid'";
